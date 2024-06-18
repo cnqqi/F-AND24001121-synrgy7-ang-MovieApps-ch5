@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MovieApp</string>
+    <string name="error_fetch_movies">Error fetching movies. Please try again.</string>
+</resources>
