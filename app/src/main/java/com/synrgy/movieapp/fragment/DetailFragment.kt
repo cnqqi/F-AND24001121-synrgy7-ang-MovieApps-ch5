@@ -7,22 +7,27 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.synrgy.movieapp.R
 import com.synrgy.movieapp.model.Movie
-
-const val MOVIE_BACKDROP = "extra_movie_backdrop"
-const val MOVIE_POSTER = "extra_movie_poster"
-const val MOVIE_TITLE = "extra_movie_title"
-const val MOVIE_RATING = "extra_movie_rating"
-const val MOVIE_RELEASE_DATE = "extra_movie_release_date"
-const val MOVIE_OVERVIEW = "extra_movie_overview"
+import com.synrgy.movieapp.util.FavoritesRepository
 
 class DetailFragment : Fragment() {
+
+    companion object {
+        const val MOVIE_BACKDROP = "extra_movie_backdrop"
+        const val MOVIE_POSTER = "extra_movie_poster"
+        const val MOVIE_TITLE = "extra_movie_title"
+        const val MOVIE_RATING = "extra_movie_rating"
+        const val MOVIE_RELEASE_DATE = "extra_movie_release_date"
+        const val MOVIE_OVERVIEW = "extra_movie_overview"
+    }
 
     private lateinit var backdrop: ImageView
     private lateinit var poster: ImageView
@@ -30,6 +35,7 @@ class DetailFragment : Fragment() {
     private lateinit var rating: RatingBar
     private lateinit var releaseDate: TextView
     private lateinit var overview: TextView
+    private lateinit var favoriteButton: FloatingActionButton
 
     private lateinit var movie: Movie
 
@@ -55,13 +61,18 @@ class DetailFragment : Fragment() {
         rating = view.findViewById(R.id.movie_rating)
         releaseDate = view.findViewById(R.id.movie_release_date)
         overview = view.findViewById(R.id.movie_overview)
+        favoriteButton = view.findViewById(R.id.fabfavmovie)
 
-        val extras = arguments
-
-        if (extras != null) {
-            populateDetails(extras)
+        val args = arguments
+        if (args != null) {
+            populateDetails(args)
         } else {
-            activity?.onBackPressed()  // Changed to go back in fragment
+            activity?.finish()
+        }
+
+        favoriteButton.setOnClickListener {
+            FavoritesRepository.addFavoriteMovie(requireContext(), movie)
+            Toast.makeText(context, "Anda menambahkan sebagai film favorite", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -92,5 +103,3 @@ class DetailFragment : Fragment() {
         overview.text = movie.overview
     }
 }
-
-

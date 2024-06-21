@@ -13,9 +13,7 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_FavoritesFragment"
-            app:destination="@id/favoritesFragment" />
+
     </fragment>
 
     <fragment
@@ -37,6 +35,9 @@
         <action
             android:id="@+id/action_homeFragment_to_ProfileFragment"
             app:destination="@id/ProfileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_FavoritesFragment"
+            app:destination="@id/favoritesFragment" />
     </fragment>
 
     <fragment

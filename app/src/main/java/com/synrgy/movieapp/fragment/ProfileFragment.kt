@@ -42,7 +42,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        setHasOptionsMenu(true) // Indicate that this fragment has menu items
+        setHasOptionsMenu(false)
 
         userPreferences = UserPreferences(requireContext())
 

@@ -1,13 +1,12 @@
 package com.synrgy.movieapp.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.synrgy.movieapp.R
@@ -15,25 +14,22 @@ import com.synrgy.movieapp.adapter.MoviesAdapter
 import com.synrgy.movieapp.model.Movie
 import com.synrgy.movieapp.util.MoviesRepository
 
-@Suppress("DEPRECATION")
 class HomeFragment : Fragment() {
 
+    private lateinit var toolbar: Toolbar
     private lateinit var popularMovies: RecyclerView
     private lateinit var popularMoviesAdapter: MoviesAdapter
     private lateinit var popularMoviesLayoutMgr: LinearLayoutManager
-
     private var popularMoviesPage = 1
 
     private lateinit var topRatedMovies: RecyclerView
     private lateinit var topRatedMoviesAdapter: MoviesAdapter
     private lateinit var topRatedMoviesLayoutMgr: LinearLayoutManager
-
     private var topRatedMoviesPage = 1
 
     private lateinit var upcomingMovies: RecyclerView
     private lateinit var upcomingMoviesAdapter: MoviesAdapter
     private lateinit var upcomingMoviesLayoutMgr: LinearLayoutManager
-
     private var upcomingMoviesPage = 1
 
     override fun onCreateView(
@@ -43,14 +39,12 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         // Set the Toolbar
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbarMain)
-        (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
+        toolbar = view.findViewById(R.id.toolbarMain)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
 
         // Set greeting message, replace [USERNAME] with the actual username
         toolbar.title = "Hai, [USERNAME]"
-
-
 
         popularMovies = view.findViewById(R.id.popular_movies)
         popularMoviesLayoutMgr = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -85,7 +79,11 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_person -> {
-                view?.findNavController()?.navigate(R.id.action_homeFragment_to_ProfileFragment)
+                findNavController().navigate(R.id.action_homeFragment_to_ProfileFragment)
+                true
+            }
+            R.id.action_favorite -> {
+                findNavController().navigate(R.id.action_homeFragment_to_FavoritesFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -169,15 +167,15 @@ class HomeFragment : Fragment() {
 
     private fun showMovieDetails(movie: Movie) {
         val bundle = Bundle().apply {
-            putString(MOVIE_BACKDROP, movie.backdropPath)
-            putString(MOVIE_POSTER, movie.posterPath)
-            putString(MOVIE_TITLE, movie.title)
-            putFloat(MOVIE_RATING, movie.rating)
-            putString(MOVIE_RELEASE_DATE, movie.releaseDate)
-            putString(MOVIE_OVERVIEW, movie.overview)
+            putString(DetailFragment.MOVIE_BACKDROP, movie.backdropPath)
+            putString(DetailFragment.MOVIE_POSTER, movie.posterPath)
+            putString(DetailFragment.MOVIE_TITLE, movie.title)
+            putFloat(DetailFragment.MOVIE_RATING, movie.rating)
+            putString(DetailFragment.MOVIE_RELEASE_DATE, movie.releaseDate)
+            putString(DetailFragment.MOVIE_OVERVIEW, movie.overview)
         }
 
-        view?.findNavController()?.navigate(R.id.action_homeFragment_to_DetailFragment, bundle)
+        findNavController().navigate(R.id.action_homeFragment_to_DetailFragment, bundle)
     }
 
     private fun onError() {
