@@ -1,6 +1,6 @@
 package com.synrgy.movieapp.util
 
-import com.synrgy.movieapp.Api
+import com.synrgy.movieapp.api.Api
 import com.synrgy.movieapp.model.GetMoviesResponse
 import com.synrgy.movieapp.model.Movie
 import retrofit2.Call

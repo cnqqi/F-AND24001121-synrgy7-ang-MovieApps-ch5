@@ -1,4 +1,4 @@
-package com.synrgy.movieapp
+package com.synrgy.movieapp.api
 
 import com.synrgy.movieapp.model.GetMoviesResponse
 import retrofit2.Call

@@ -10,7 +10,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
-import com.synrgy.movieapp.R
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -50,17 +49,29 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
-        // Control the visibility of the person icon based on the current fragment
-        val menuItem = menu.findItem(R.id.action_person)
         val navDestinationId = navController.currentDestination?.id
-        menuItem.isVisible = navDestinationId != R.id.loginFragment
+
+        val personMenuItem = menu.findItem(R.id.action_person)
+        val favoriteMenuItem = menu.findItem(R.id.action_favorite)
+
+        personMenuItem.isVisible = navDestinationId != R.id.loginFragment
+        favoriteMenuItem.isVisible = navDestinationId != R.id.loginFragment
+
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_person -> {
-                navController.navigate(R.id.action_homeFragment_to_ProfileFragment)
+                if (navController.currentDestination?.id == R.id.homeFragment) {
+                    navController.navigate(R.id.action_homeFragment_to_ProfileFragment)
+                }
+                true
+            }
+            R.id.action_favorite -> {
+                if (navController.currentDestination?.id == R.id.homeFragment) {
+                    navController.navigate(R.id.action_homeFragment_to_FavoritesFragment)
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
